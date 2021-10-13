@@ -22,9 +22,13 @@ const updateProduct = (req, res, next) => {
     })
 }
 
-const deleteProduct = (req, res, next) => {
+const deleteProduct = async (req, res, next) => {
+    const product = await Product.deleteOne({
+        _id: req.params.id
+    });
+
     res.json({
-        message: "sukses"
+        message: product
     })
 }
 
