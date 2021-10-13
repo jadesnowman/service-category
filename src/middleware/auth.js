@@ -10,18 +10,20 @@ const verifyToken = (req, res, next) => {
         return;
     }
 
-    try {
-        const decoded = jwt.verify(req.headers.authorization.split(' ').pop(), process.env.TOKEN_KEY);
-        console.log(decoded)
+    jwt.verify(req.headers.authorization.split(' ').pop(), process.env.TOKEN_KEY, (err, decoded) => {
+        if (err) {
 
-        return next();
-    } catch (error) {
-        console.log({ error })
-        const msg = fail("Unauthorized.", 401);
-        res.status(401).json(msg);
-        return;
-    }
+            console.log({ err })
+            console.log(err.name)
+            console.log(err.expiredAt)
 
+            const msg = fail(err.message, 401);
+            res.status(401).json(msg);
+            return;
+        }
+
+        return next()
+    });
 }
 
 module.exports = verifyToken
