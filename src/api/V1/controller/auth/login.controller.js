@@ -39,7 +39,11 @@ const login = async (req, res) => {
         }
     )
 
-    const msg = success(token, "Login success!");
+    const msg = success({
+        token: token,
+        expiry: jwt.decode(token, process.env.TOKEN_KEY).exp
+    }, "Login success!");
+
     res.json(msg);
     return;
 }
