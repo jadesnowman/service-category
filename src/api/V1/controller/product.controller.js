@@ -28,9 +28,31 @@ const deleteProduct = (req, res, next) => {
     })
 }
 
+const showProduct = async (req, res, next) => {
+    try {
+        const product = await Product.findById(req.params.id);
+        console.log(product)
+        res.json(
+            {
+                success: true,
+                data: product
+            }
+        )
+    } catch (error) {
+        res.status(404).json(
+            {
+                success: false,
+                message: "Data you're looking does not found!",
+                data: null
+            }
+        )
+    }
+}
+
 module.exports = {
     createProduct,
     getProduct,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    showProduct
 }
