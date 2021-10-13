@@ -1,16 +1,8 @@
 require('dotenv').config();
+require('./src/config/database').connect()
 
 const express = require('express');
 const app = express()
-
-const mongoose = require('mongoose');
-mongoose.connect(process.env.DB_CONNECTION)
-    .then(result => {
-        console.log("Database Connected")
-    }).catch(error => {
-        console.log("Database connection failure")
-        console.log({ error })
-    });
 
 const productRoute = require("./src/api/V1/routes/product.route")
 
