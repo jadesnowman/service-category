@@ -1,13 +1,15 @@
 
 const db = require('../../../config/firedatabase');
-const { ref, set, update } = require('firebase/database');
+const { ref, set, update, onValue } = require('firebase/database');
 const { success, fail } = require('../../../helpers/response')
 
 const index = async (req, res, next) => {
-    res.json({
-        success: true
-    })
-    return;
+    const response = ref(db, 'categories/');
+
+    onValue(response, (snapshot) => {
+        res.json(success(snapshot.val(), "Data successfully retrieved!"))
+        return;
+    });
 }
 
 const store = async (req, res, next) => {
