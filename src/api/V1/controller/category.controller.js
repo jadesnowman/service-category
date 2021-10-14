@@ -1,6 +1,6 @@
 
 const db = require('../../../config/firedatabase');
-const { ref, set, update, onValue } = require('firebase/database');
+const { ref, set, update, onValue, get, child } = require('firebase/database');
 const { success, fail } = require('../../../helpers/response')
 
 const index = async (req, res, next) => {
@@ -31,7 +31,33 @@ const store = async (req, res, next) => {
     return;
 }
 
+const show = async (req, res, next) => {
+
+    const dbRef = ref(db);
+    get(child(dbRef, `categories/${req.params.id}`)).then((snapshot) => {
+        if (snapshot.exists()) {
+            res.json(success(snapshot.val(), "Data successfully retrieved!"))
+            return;
+        } else {
+            res.json(fail("No data available!", 404))
+        }
+    }).catch((error) => {
+        res.json(fail("No data available!", 404))
+    });
+}
+
+const patch = () => {
+
+}
+
+const destroy = () => {
+
+}
+
 module.exports = {
     index,
-    store
+    store,
+    show,
+    patch,
+    destroy
 }
