@@ -32,18 +32,18 @@ const store = async (req, res, next) => {
 }
 
 const show = async (req, res, next) => {
+    try {
+        const dbRef = ref(db);
+        const snapshot = await get(child(dbRef, `categories/${req.params.id}`));
 
-    const dbRef = ref(db);
-    get(child(dbRef, `categories/${req.params.id}`)).then((snapshot) => {
-        if (snapshot.exists()) {
-            res.json(success(snapshot.val(), "Data successfully retrieved!"))
-            return;
-        } else {
+        if (!snapshot.exists()) {
             res.json(fail("No data available!", 404))
         }
-    }).catch((error) => {
+
+        res.json(success(snapshot.val(), "Data successfully retrieved!"))
+    } catch (error) {
         res.json(fail("No data available!", 404))
-    });
+    }
 }
 
 const patch = () => {
