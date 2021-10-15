@@ -23,10 +23,6 @@ const store = async (req, res, next) => {
         quantity: req.body.quantity
     })
 
-    await update(categoryRef, {
-        color: 'Yellow'
-    })
-
     res.json(success(req.body.name, "Data successfully stored!"))
 }
 
@@ -46,8 +42,16 @@ const show = async (req, res, next) => {
     }
 }
 
-const patch = () => {
+const patch = async (req, res, next) => {
+    const categoryRef = ref(db, `categories/${req.body.id}`)
 
+    await update(categoryRef, {
+        color: req.body.color,
+        name: req.body.name,
+        quantity: req.body.quantity
+    })
+
+    res.json(success(req.body.name, "Data successfully updated!"))
 }
 
 const destroy = async (req, res, next) => {
