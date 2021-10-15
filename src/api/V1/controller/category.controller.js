@@ -1,21 +1,21 @@
 
 const db = require('../../../config/firedatabase');
-const { ref, set, update, onValue, get, child } = require('firebase/database');
+const { ref, set, update, onValue, get, child, remove } = require('firebase/database');
 const { success, fail } = require('../../../helpers/response')
 
 const index = async (req, res, next) => {
-    const response = ref(db, 'categories/');
+    const response = ref(db, 'categories');
 
     onValue(response, (snapshot) => {
         res.json(success(snapshot.val(), "Data successfully retrieved!"))
-        return;
     });
+
 }
 
 const store = async (req, res, next) => {
 
     const newCategoryName = new Date().getTime()
-    const categoryRef = ref(db, `/categories/${newCategoryName}`)
+    const categoryRef = ref(db, `categories/${newCategoryName}`)
 
     await set(categoryRef, {
         name: req.body.name,
@@ -28,7 +28,6 @@ const store = async (req, res, next) => {
     })
 
     res.json(success(req.body.name, "Data successfully stored!"))
-    return;
 }
 
 const show = async (req, res, next) => {
@@ -37,12 +36,13 @@ const show = async (req, res, next) => {
         const snapshot = await get(child(dbRef, `categories/${req.params.id}`));
 
         if (!snapshot.exists()) {
-            res.json(fail("No data available!", 404))
+            res.status(404).json(fail("Data you're looking does not found!", 404))
+        } else {
+            res.json(success(snapshot.val(), "Data successfully retrieved!"))
         }
 
-        res.json(success(snapshot.val(), "Data successfully retrieved!"))
     } catch (error) {
-        res.json(fail("No data available!", 404))
+        res.status(404).json(fail("Data you're looking does not found!", 404))
     }
 }
 
@@ -50,8 +50,13 @@ const patch = () => {
 
 }
 
-const destroy = () => {
-
+const destroy = async (req, res, next) => {
+    try {
+        await remove(ref(db, `/categories/${req.params.id}`))
+        res.status(200).json(success(req.params.id, "Data successfully deleted!"))
+    } catch (error) {
+        res.status(400).json(fail("Failed to delete data!", 400))
+    }
 }
 
 module.exports = {
