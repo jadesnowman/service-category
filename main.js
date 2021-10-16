@@ -1,22 +1,21 @@
 require('dotenv').config();
+require('./src/config/database').connect()
 
 const express = require('express');
 const app = express()
 
-const mongoose = require('mongoose');
-mongoose.connect(process.env.DB_CONNECTION)
-    .then(result => {
-        console.log("Database Connected")
-    }).catch(error => {
-        console.log("Database connection failure")
-        console.log({ error })
-    });
+const { PORT } = process.env
 
+const authRoute = require("./src/api/V1/routes/auth.route")
 const productRoute = require("./src/api/V1/routes/product.route")
+const categoryRoute = require("./src/api/V1/routes/category.route")
 
 app.use(express.json())
-app.use('/api/v1/products', productRoute)
 
-app.listen(process.env.PORT, () => {
-    console.log(`listening ${process.env.PORT}`)
+app.use('/api/v1/auth', authRoute)
+app.use('/api/v1/products', productRoute)
+app.use('/api/v1/categories', categoryRoute)
+
+app.listen(PORT, () => {
+    console.log(`listening ${PORT}`)
 })

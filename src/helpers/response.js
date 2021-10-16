@@ -11,7 +11,6 @@ exports.success = (data = null, message = "Success!", code = 200) => {
 }
 
 exports.fail = (message = "Failed!", code = 400) => {
-    console.log(code)
     return {
         success: false,
         message: message,
