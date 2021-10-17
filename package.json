@@ -4,7 +4,7 @@
   "description": "Membuat API CRUD menggunakan Lumen/Node.js/.net/Go dengan layanan MongoDB",
   "main": "main.js",
   "scripts": {
-    "test": "nodemon main.js",
+    "test": "node main.js",
     "start": "node main.js"
   },
   "repository": "https://github.com/ilhamsj",
