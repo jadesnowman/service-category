@@ -13,9 +13,9 @@ const categoryRoute = require("./src/api/V1/routes/category.route")
 app.use(express.json())
 
 app.get('/', (req, res, next) => {
-    return {
+    res.json({
         success: true
-    }
+    })
 })
 
 app.use('/api/v1/auth', authRoute)
