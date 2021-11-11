@@ -5,10 +5,10 @@
 - heroku  
 
 ## ROUTE
-- CREATE      /api/v1/products  
-- READ        /api/v1/products  
-- UPDATE      /api/v1/products  
-- DELETE      /api/v1/products  
+- CREATE      `/api/v1/products`  
+- READ        `/api/v1/products`  
+- UPDATE      `/api/v1/products`  
+- DELETE      `/api/v1/products`  
 
 ## HOW TO RUN
 `cp .env.example .env`  
