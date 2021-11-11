@@ -1,5 +1,9 @@
 # SERVICE CATEGORIES
 
+## HOSTED 
+- vercel  
+- heroku  
+
 ## ROUTE
 - CREATE      /api/v1/products  
 - READ        /api/v1/products  
